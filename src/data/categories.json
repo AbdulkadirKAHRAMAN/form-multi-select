@@ -1,0 +1,64 @@
+[
+    {
+        "id":1,
+        "title": "Yazılım ve* Programlama",
+        "reverse": false,
+        "educations": [
+            {
+                "id": 1,
+                "title": ".NET Programlama"
+            },
+            {
+                "id": 2,
+                "title": ".NET Programlama"
+            },
+            {
+                "id": 3,
+                "title": ".NET Programlama"
+            },
+            {
+                "id": 4,
+                "title": ".NET Programlama"
+            },
+            {
+                "id": 5,
+                "title": ".NET Programlama"
+            },
+            {
+                "id": 6,
+                "title": ".NET Programlama"
+            },
+            {
+                "id": 7,
+                "title": ".NET Programlama"
+            }
+        ]
+    },
+    {
+        "id":2,
+        "reverse":true,
+        "title": "Yapay* Zeka* ve Veri Bilimi",
+        "educations": [
+            {
+                "id": 1,
+                "title": ".NET Programlama"
+            },
+            {
+                "id": 2,
+                "title": ".NET Programlama"
+            },
+            {
+                "id": 3,
+                "title": ".NET Programlama"
+            },
+            {
+                "id": 4,
+                "title": ".NET Programlama"
+            },
+            {
+                "id": 5,
+                "title": ".NET Programlama"
+            }
+        ]
+    }
+]
