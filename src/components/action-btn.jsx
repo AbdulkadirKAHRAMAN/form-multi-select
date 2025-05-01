@@ -43,6 +43,13 @@ export default function ActionButton() {
   const [multiSelectData, setMultiSelectData] = useState({});
   const [open, setOpen] = useState(false);
   const [successAlertOpen, setSuccessAlertOpen] = useState(false);
+  const [confirmCloseOpen, setConfirmCloseOpen] = useState(false);
+  const [pendingOpenState, setPendingOpenState] = useState(false);
+
+  const isFormDirty =
+  Object.keys(formData).length > 0 || Object.keys(multiSelectData).length > 0;
+
+
 
   const handleComplete = () => {
     console.log("Form gönderildi:", formData);
@@ -54,7 +61,17 @@ export default function ActionButton() {
 
   return (
     <>
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog
+          open={open}
+          onOpenChange={(nextOpen) => {
+            if (!nextOpen && isFormDirty) {
+              setPendingOpenState(false); 
+              setConfirmCloseOpen(true); 
+            } else {
+              setOpen(nextOpen); 
+            }
+          }}
+        >
         <DialogTrigger asChild>
           <Button size="xl">Ön Kayıt</Button>
         </DialogTrigger>
@@ -84,7 +101,6 @@ export default function ActionButton() {
               >
                 <form className="space-y-4">
                   <h2 className="text-lg font-semibold mb-4">
-                    {step.name ?? `Aşama ${index + 1}`}
                   </h2>
                   {step.questions.map((question, qIndex) => (
                     <div key={qIndex}>
@@ -203,6 +219,34 @@ export default function ActionButton() {
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
+
+          <AlertDialog open={confirmCloseOpen} onOpenChange={setConfirmCloseOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Formu kapatmak istiyor musunuz?</AlertDialogTitle>
+          </AlertDialogHeader>
+          <p className="text-muted-foreground">
+            Girdiğiniz veriler kaybolacak.
+          </p>
+          <AlertDialogFooter>
+            <AlertDialogAction
+              onClick={() => {
+                setConfirmCloseOpen(false);
+                setOpen(pendingOpenState); // false = dialog kapat
+                setFormData({});
+                setFormErrors({});
+                setMultiSelectData({});
+              }}
+            >
+              Evet, kapat
+            </AlertDialogAction>
+            <Button variant="outline" onClick={() => setConfirmCloseOpen(false)}>
+              Vazgeç
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
     </>
   );
 }
