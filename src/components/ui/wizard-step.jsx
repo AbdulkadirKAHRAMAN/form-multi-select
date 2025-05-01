@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 
 const WizardContext = React.createContext(undefined)
 
-export function useWizard() {
+const useWizard = () => {
   const context = useContext(WizardContext);
   if (!context) {
     throw new Error("useWizard must be used within a Wizard");
@@ -19,7 +19,11 @@ export function useWizard() {
       setStep(totalSteps);
     },
   };
-}
+};
+
+
+
+
 
 function Wizard({ initialStep = 0, totalSteps, children, className }) {
   const [currentStep, setCurrentStep] = useState(initialStep)
@@ -313,4 +317,5 @@ export {
   WizardProgress,
   WizardButtons,
   useWizard
+  
 }
