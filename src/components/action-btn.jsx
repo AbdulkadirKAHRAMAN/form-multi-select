@@ -33,7 +33,7 @@ import {
   AlertDialogFooter,
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
-
+import { CheckCircle } from "lucide-react";
 
 
 export default function ActionButton() {
@@ -187,7 +187,11 @@ export default function ActionButton() {
           <AlertDialog open={successAlertOpen} onOpenChange={setSuccessAlertOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Başarıyla Gönderildi</AlertDialogTitle>
+          <AlertDialogTitle>
+            <div className="flex gap-4 items-center ">
+            <h1 className="text-3xl">Başarıyla Gönderildi</h1> <CheckCircle className="text-green-500 w-8 h-8" />
+          </div>
+          </AlertDialogTitle>
         </AlertDialogHeader>
         <p className="text-muted-foreground">Ön kayıt formunuz başarıyla gönderildi. Sizinle en kısa sürede iletişime geçilecektir.</p>
         <AlertDialogFooter>
