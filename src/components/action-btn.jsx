@@ -17,8 +17,23 @@ import {
   WizardButtons,
   useWizard,
 } from "@/components/ui/wizard-step";
-import { AlertDialog, AlertDialogContent, AlertDialogTitle } from "@radix-ui/react-alert-dialog";
-import { AlertDialogAction, AlertDialogFooter, AlertDialogHeader } from "./ui/alert-dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "./ui/input";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogFooter,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
+
 
 
 export default function ActionButton() {
@@ -87,30 +102,57 @@ export default function ActionButton() {
                           defaultValue={multiSelectData[question.key] || []}
                         />
                       ) : question.type === "select" ? (
-                        <select
-                          className="border w-full placeholder:text-gray-400"
-                          required={question.required}
-                          name={question.key}
-                          defaultValue=""
-                          onChange={(e) =>
+                        
+                        
+                        <Select
+                          value={formData[question.key] || ""}
+                          onValueChange={(value) =>
                             setFormData((prev) => ({
                               ...prev,
-                              [question.key]: e.target.value,
+                              [question.key]: value,
                             }))
                           }
                         >
-                          <option value="" disabled hidden>
-                            {question.placeholder || "Bir seçenek seçiniz"}
-                          </option>
-                          {question.options.map((option) => (
-                            <option key={option.value} value={option.value}>
-                              {option.label}
-                            </option>
-                          ))}
-                        </select>
-                      ) : (
-                        <input
-                          className="border w-full placeholder:text-gray-400"
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder={question.placeholder || "Bir seçenek seçiniz"} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {question.options.map((option) => (
+                              <SelectItem key={option.value} value={option.value}>
+                                {option.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        
+                      ) : question.type==="tel" ? (
+                        <Input
+                        type="text"
+                        name="phone"
+                        maxLength={14} // toplam 14 karakter: (555)-555-5555
+                        placeholder={question.placeholder}
+                        value={formData.phone || ''}
+                        onChange={(e) => {
+                          const raw = e.target.value.replace(/\D/g, '').slice(0, 10); // sadece rakam ve en fazla 10 karakter
+                          const formatted = raw
+                            .replace(/(\d{0,3})(\d{0,3})(\d{0,4})/, (_, a, b, c) => {
+                              let result = '';
+                              if (a) result += `(${a}`;
+                              if (a && a.length === 3) result += `)`;
+                              if (b) result += `-${b}`;
+                              if (c) result += `-${c}`;
+                              return result;
+                            });
+                      
+                          setFormData((prev) => ({ ...prev, phone: formatted }));
+                        }}
+                        className="border w-full placeholder:text-gray-400"
+                      />
+                      
+
+                      ): (
+                        <Input
+                          className="border w-full "
                           type={question.type}
                           name={question.key}
                           placeholder={question.placeholder}
@@ -139,11 +181,22 @@ export default function ActionButton() {
               prevText="Geri"
               completeText="Gönder"
             />
-       
           </Wizard>
         </DialogContent>
       </Dialog>
-
+          <AlertDialog open={successAlertOpen} onOpenChange={setSuccessAlertOpen}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Başarıyla Gönderildi</AlertDialogTitle>
+        </AlertDialogHeader>
+        <p className="text-muted-foreground">Ön kayıt formunuz başarıyla gönderildi. Sizinle en kısa sürede iletişime geçilecektir.</p>
+        <AlertDialogFooter>
+          <AlertDialogAction onClick={() => setSuccessAlertOpen(false)}>
+            Tamam
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
     </>
   );
 }

@@ -11,11 +11,11 @@ export const step1Schema = z.object({
     .nonempty({ message: "E-posta alanı boş bırakılamaz" })
     .email({ message: "Geçerli bir e-posta adresi girin" }),
 
-  phone: z
+    phone: z
     .string()
     .nonempty({ message: "Telefon numarası boş bırakılamaz" })
-    .min(10, { message: "Telefon numarası en az 10 karakter olmalıdır" }),
-
+    .length(14, { message: "Telefon numarası tam olarak 10 karakter olmalıdır" }),
+  
   city: z
     .string()
     .nonempty({ message: "Lütfen bir şehir seçiniz" }),

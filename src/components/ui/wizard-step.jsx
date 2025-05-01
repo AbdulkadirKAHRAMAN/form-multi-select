@@ -111,7 +111,8 @@ function Wizard({ initialStep = 0, totalSteps, children, className }) {
     isFirstStep,
     isLastStep,
     isComplete,
-    setComplete, // BUNU EKLEDİK
+    setComplete, 
+    
     visibleSteps,
     registerStep,
     validateStep,
