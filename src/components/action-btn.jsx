@@ -16,6 +16,7 @@ import {
   WizardStep,
   WizardButtons,
   useWizard,
+  WizardProgress,
 } from "@/components/ui/wizard-step";
 import {
   Select,
@@ -62,6 +63,7 @@ export default function ActionButton() {
             <DialogTitle>Ön Kayıt</DialogTitle>
           </DialogHeader>
           <Wizard totalSteps={steps.length}>
+          <WizardProgress/>
             {steps.map((step, index) => (
               <WizardStep
                 key={index}
